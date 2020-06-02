@@ -65,6 +65,7 @@ public class ServiceCom {
             //  Co.setPost_id((int)Float.parseFloat(obj.get("post_id").toString()));
               //Co.setUser_id((int)Float.parseFloat(obj.get("user_id").toString()));
               Co.setContent(obj.get("content").toString());
+              
              //  t.setPostdate(obj.get("postdate").toString());
             //  Co.setRating((int)Float.parseFloat(obj.get("rating").toString()));
              //  t.setBlocke((int)Float.parseFloat(obj.get("blocke").toString()));
@@ -84,7 +85,7 @@ public class ServiceCom {
 }
 
          public ArrayList<Commentaire> getAllTasks(Post P){
-        String url = Statics.BASE_URL +"/detailedpost/"+P.getId();
+        String url = Statics.BASE_URL +"/detailedpost1/"+P.getId();
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -144,7 +145,7 @@ public boolean addCo(Commentaire e,int c,fos_user Us) {
     }
 
 
-         public void SuppCom(int e) {
+         public boolean SuppCom(int e) {
            // Post e= new Post();
         ConnectionRequest req = new ConnectionRequest();
          // String url = Statics.BASE_URL ;
@@ -157,11 +158,12 @@ public boolean addCo(Commentaire e,int c,fos_user Us) {
 
         });
         NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOK;
        
 }
 
 public boolean ModCom(Commentaire e) {
-        String url = Statics.BASE_URL + "/updatecomm" +"/"+e.getId()+"/"+e.getContent();
+        String url = Statics.BASE_URL + "/updatecomment" +"/"+e.getId()+"/"+e.getContent();
         req.setUrl(url);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override

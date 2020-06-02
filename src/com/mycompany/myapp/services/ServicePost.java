@@ -11,11 +11,15 @@ import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.l10n.SimpleDateFormat;
+import com.codename1.messaging.Message;
 import com.codename1.ui.Calendar;
+import com.codename1.ui.Display;
 import static com.codename1.ui.events.ActionEvent.Type.Calendar;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.util.DateUtil;
 import com.mycompany.myapp.entities.Post;
+import com.mycompany.myapp.entities.Vars;
+import com.mycompany.myapp.entities.fos_user;
 import com.mycompany.myapp.utils.Statics;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,12 +52,17 @@ public class ServicePost {
         return instance;
     }
 
-    public boolean addPost(Post t)
+    public boolean addPost(Post t,fos_user u)
     {
 //         String url = Statics.BASE_URL + "/event/events/Ajout?NomEvent=" + e.getNomEvent()+ "&CategorieEvent=" + e.getCategorieEvent()+ "&NbrPlaceDispo=" + e.getNbrPlaceDispo()+"&Description="+e.getDescription()+"&Adresse="+e.getAdresse();
 //        String url = Statics.BASE_URL + "/club/Ajout?NomClub=" + c.getNomClub()+ "&ActiviteClub=" + c.getActiviteClub()+ "&Effectif=" + c.getEffectif();
-     String url = Statics.BASE_URL + "/posts/new?description=" + t.getDescription()+ "&title=" + t.getTitle()+ "&rating=" + t.getRating()+ "&photo=" + t.getPhoto();
-    //    String url = Statics.BASE_URL + "/posts/new?description="+t.getDescription()+"&title="+t.getTitle()+"&rating="+t.getRating();
+   //  String url = Statics.BASE_URL + "/posts/new?description=" + t.getDescription()+ "&title=" + t.getTitle()+ "&rating=" + t.getRating()+ "&photo=" + t.getPhoto();
+       String url = Statics.BASE_URL + "/posts/create?description=" + t.getDescription()
+               +"&title="+t.getTitle()
+               +"&rating="+t.getRating()
+               +"&creator="+u.getId()
+               + "&photo="+t.getPhoto();
+//    String url = Statics.BASE_URL + "/posts/new?description="+t.getDescription()+"&title="+t.getTitle()+"&rating="+t.getRating();
      req.setUrl(url);
         req.addResponseListener(new ActionListener<NetworkEvent>() 
         {
@@ -64,6 +73,13 @@ public class ServicePost {
             }
         });
         NetworkManager.getInstance().addToQueueAndWait(req);
+        
+   // Message m = new Message( "post ajouté: son description est  "+t.getDescription());
+  
+      System.out.println(" email de utilisateur " + u.getEmail());
+
+     //  Display.getInstance().sendMessage(new String[] {u.getEmail()},"mail d'ajout ", m);
+
         return resultOK;   
     }
     
@@ -80,12 +96,16 @@ public class ServicePost {
                 Post t = new Post();
                 float id = Float.parseFloat(obj.get("id").toString());
                 t.setId((int)id);
-                t.setRating(((int)Float.parseFloat(obj.get("rating").toString())));
+               t.setRating(((int)Float.parseFloat(obj.get("rating").toString())));
                 t.setDescription(obj.get("description").toString());
-                t.setPostdate(obj.get("postdate").toString());
+             //   t.setPostdate(obj.get("postdate").toString());
                 t.setTitle(obj.get("title").toString());
-                 t.setNbrpost(((int)Float.parseFloat(obj.get("nbrpost").toString())));
-//                t.setPhoto(obj.get("photo").toString());
+              //    float idcreator = Float.parseFloat(obj.get("creator").toString());
+               // t.setCreator((int)idcreator);
+               
+       
+               //  t.setNbrpost(((int)Float.parseFloat(obj.get("nbrpost").toString())));
+                t.setPhoto(obj.get("photo").toString());
 //                    
 //    SimpleDateFormat dateformat = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss aa");
 //    String datetime = dateformat.format(obj.get("postdate").toString());
@@ -147,7 +167,22 @@ public class ServicePost {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return resultOK;
     }
-    
+       
+       
+      public ArrayList<Post> getRech(String ch){
+        String url = Statics.BASE_URL+"/posts/chercherpost/"+ch;
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                posts = parsePosts(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return posts;
+    }
     
     
     

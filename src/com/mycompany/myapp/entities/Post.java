@@ -12,7 +12,7 @@ import javafx.scene.image.ImageView;
  * @author USER
  */
 public class Post {
-      private static int id;
+    private  int id;
     private String title;
     private String description;
     private String photo;
@@ -21,7 +21,7 @@ public class Post {
     private int rating;
     private int nbrpost;
     private ImageView img;
-    
+    private fos_user user;
     public Post() {
      
     }
@@ -50,7 +50,10 @@ public class Post {
         this.rating = rating;
         this.nbrpost = nbrpost;
     }
- public Post(String title, String description, int rating) {
+    
+    
+    
+ public Post(String title, String description, int rating ) {
         this.title = title;
         this.description = description;
         this.rating = rating;
@@ -64,13 +67,32 @@ public class Post {
          this.photo = photo;
  
     }
-    public static int getId() {
+  public Post(String title, String description, int rating ,int creator) {
+        this.title = title;
+        this.description = description;
+        this.rating = rating;
+         this.creator= creator;
+ 
+    }
+  
+  
+//    public static int getId() {
+//        return id;
+//    }
+//
+//    public static void setId(int id) {
+//        Post.id = id;
+//    }
+
+    public int getId() {
         return id;
     }
 
-    public static void setId(int id) {
-        Post.id = id;
+    public void setId(int id) {
+        this.id = id;
     }
+ 
+ 
 
      public Post(int id ,String title, String description, int rating) {
       this.id =id;
@@ -80,8 +102,8 @@ public class Post {
  
     }
      
-      public Post(int id ,String title, String description) {
-      this.id =id;
+      public Post(String title, String description) {
+   //   this.id =id;
         this.title = title;
         this.description = description;
         
@@ -160,6 +182,16 @@ public class Post {
     public void setImg(ImageView img) {
         this.img = img;
     }
+
+    public fos_user getUser() {
+        return user;
+    }
+
+    public void setUser(fos_user user) {
+        this.user = user;
+    }
+    
+    
     
     
     

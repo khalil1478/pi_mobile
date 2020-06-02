@@ -1,7 +1,6 @@
 package com.mycompany.myapp;
 
 
-import com.mycompany.myapp.gui.LoginForm;
 import static com.codename1.ui.CN.*;
 import com.codename1.ui.Display;
 import com.codename1.ui.Form;
@@ -14,6 +13,7 @@ import com.codename1.ui.Toolbar;
 import java.io.IOException;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.io.NetworkEvent;
+import com.mycompany.myapp.entities.fos_user;
 
 import com.mycompany.myapp.gui.HomeForm;
 import com.mycompany.myapp.gui.*;
@@ -29,7 +29,8 @@ import com.mycompany.myapp.gui.StatsForm;
 public class pi_mobile {
  
     private Form current;
-    private Resources theme;
+    //private Resources theme;
+    public static Resources theme;
 
     public void init(Object context) {
         // use two network threads instead of one
@@ -55,8 +56,9 @@ public class pi_mobile {
     }
     
     public void start() {
+        fos_user u = null;
         
-      new  HomeForm().show();
+      new  LoginForm().show();
      
     }
 

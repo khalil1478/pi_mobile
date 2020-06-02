@@ -20,18 +20,19 @@ import com.codename1.ui.Display;
  * @author USER
  */
 public class AddComFrom extends Form {
-
+ Form current;
     public AddComFrom(fos_user u, Post P, Commentaire C) {
-        
+        System.out.println(u);
          setTitle("Détails Produits");
          setLayout(BoxLayout.y());
          
-         
+           getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e-> new DetailsForm(C,P,u).show());
          
         TextField Con = new TextField("","content");
         
         Button btnValider = new Button("Add Commentaire");
         Button btnAnnuler = new Button("Annuler");
+        
          Commentaire Co=new Commentaire();
         
         

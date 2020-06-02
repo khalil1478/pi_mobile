@@ -16,6 +16,7 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.plaf.UIManager;
+import com.mycompany.myapp.entities.fos_user;
 
 /**
  *
@@ -24,9 +25,10 @@ import com.codename1.ui.plaf.UIManager;
 public class HomeForm  extends Form{
     
     Form current;
-    public HomeForm()
+    public HomeForm(fos_user u)
           
     {
+        
      
         current=this;
         setTitle("Home");
@@ -43,14 +45,14 @@ Label picture = new Label("", "Container");
 
         Button addpost  = new Button("Add post");
         Button listpost = new Button("List post");
-        Button  listcommentaire = new Button("List commentaire");
+       // Button  listcommentaire = new Button("List commentaire");
         Button  listutilisateur = new Button("List utilisateur");
         Button  capturephoto = new Button("prenez une photo");
-        addpost.addActionListener(e-> new AddPostForm(current).show() );
-        listpost.addActionListener(e-> new ListPostForm(current).show() );
-        listcommentaire.addActionListener(e-> new ListCommentForm(current).show() );
+        addpost.addActionListener(e-> new AddPostForm(current,u).show() );
+        listpost.addActionListener(e-> new ListPostForm(current,u).show() );
+      //  listcommentaire.addActionListener(e-> new ListCommentForm(current).show() );
         listutilisateur.addActionListener(e-> new ListUserForm(current).show() );
-        cnt4.addAll(lb,addpost,listpost,listcommentaire,listutilisateur,capturephoto,picture);
+        cnt4.addAll(lb,addpost,listpost,listutilisateur,capturephoto,picture);
         add(cnt4);
         
         

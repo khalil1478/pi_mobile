@@ -33,6 +33,12 @@ public class Commentaire {
     public Commentaire(String content) {
         this.content = content;
     }
+    
+    public Commentaire(int id, String content) {
+        this.id = id;
+       
+        this.content = content;
+    }
 
     public Commentaire() {
     }

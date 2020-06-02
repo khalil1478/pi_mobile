@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public class ServiceUser{
     
-  public ArrayList<Post> posts;
+  public ArrayList<fos_user> users;
     
     public static ServiceUser instance=null;
     public boolean resultOK;
@@ -62,43 +62,45 @@ public class ServiceUser{
     
     
     
-    public ArrayList<Post> parseTasks(String jsonText){
+    public ArrayList<fos_user> parseTasks(String jsonText){
         try {
-            posts=new ArrayList<>();
+            users=new ArrayList<>();
             JSONParser j = new JSONParser();
             Map<String,Object> tasksListJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
             
             List<Map<String,Object>> list = (List<Map<String,Object>>)tasksListJson.get("root");
             for(Map<String,Object> obj : list){
-                Post t = new Post();
+                fos_user t = new fos_user();
                 float id = Float.parseFloat(obj.get("id").toString());
                 t.setId((int)id);
-                t.setRating(((int)Float.parseFloat(obj.get("rating").toString())));
-                t.setDescription(obj.get("description").toString());
-            posts.add(t);
+                t.setEmail(obj.get("email").toString());
+                t.setUsername(obj.get("username").toString());
+                t.setFirstname(obj.get("firstname").toString());
+                 t.setPassword(obj.get("password").toString());
+            users.add(t);
             }
             
             
         } catch (IOException ex) {
             
         }
-        return posts;
+        return users;
     }
     
     
-     public ArrayList<Post> getAllPosts(){
-        String url = Statics.BASE_URL+"/posts/";
+     public ArrayList<fos_user> getAllUsers(){
+        String url = Statics.BASE_URL+"/users/all";
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
-                posts = parseTasks(new String(req.getResponseData()));
+                users = parseTasks(new String(req.getResponseData()));
                 req.removeResponseListener(this);
             }
         });
         NetworkManager.getInstance().addToQueueAndWait(req);
-        return posts;
+        return users;
     }
     
     
